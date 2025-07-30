@@ -11,9 +11,14 @@ print("GOOGLE_API_KEY found:", GOOGLE_API_KEY)
 
 # --- Pinecone Configuration ---
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+if not PINECONE_API_KEY:
+    raise ValueError("No Pinecone API key found. Please set PINECONE_API_KEY in your .env file")
+
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "role-comparison-index")
-PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "us-east-1")   # ✅ FIXED: use correct region format
-PINECONE_CLOUD = os.getenv("PINECONE_CLOUD", "aws")                     # ✅ NEW: default cloud is aws
+
+# IMPORTANT: Pinecone environment value must match Pinecone's expected regions (e.g., "us-east1-gcp" or "us-east-1")
+PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "us-east-1")
+PINECONE_CLOUD = os.getenv("PINECONE_CLOUD", "aws")
 
 # --- Other Configs ---
 PDF_CHUNK_SIZE = int(os.getenv("PDF_CHUNK_SIZE", 1000))
